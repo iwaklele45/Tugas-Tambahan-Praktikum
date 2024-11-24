@@ -7,13 +7,8 @@
 // Struktur Data
 struct Sks
 {
-    int eval1;
-    int eval2;
-    int eval3;
-    int uas;
+    int eval1, eval2, eval3, uas, maks, min;
     float rataRata;
-    int maks;
-    int min;
     char grade[3];
 };
 
@@ -26,6 +21,7 @@ struct Mahasiswa
 
 struct Mahasiswa mhs[100]; // Array untuk menyimpan data mahasiswa
 int mhs_count = 0;
+float rataRataSeluruhMahasiswa = 0;
 
 // Deklarasi Fungsi
 void output1();
@@ -329,7 +325,12 @@ int callback(void *db_pointer, int argc, char **argv, char **azColName)
         if (evals[i] < min)
             min = evals[i];
     }
+    // int totalMhs = totalMhs += mhs_count;
+    // mhs[mhs_count].nilai.rataRataSeluruhMhs = sum / totalMhs;
     mhs[mhs_count].nilai.rataRata = ceil(sum / 4.0);
+    float totalRataRata = 0;
+    totalRataRata += mhs[mhs_count].nilai.rataRata;
+    rataRataSeluruhMahasiswa = totalRataRata / mhs_count;
     mhs[mhs_count].nilai.maks = max;
     mhs[mhs_count].nilai.min = min;
 
@@ -416,6 +417,12 @@ void showAllData(sqlite3 *db)
                        mhs[i].nilai.min,
                        mhs[i].nilai.grade);
             }
+            if (mhs_count > 1)
+            {
+                printf("=================================================================================================================\n");
+                printf("Nilai rata-rata seluruh mahasiswa : %.2f\n", rataRataSeluruhMahasiswa);
+            }
+
             printf("=================================================================================================================\n\n\n");
         }
     }
